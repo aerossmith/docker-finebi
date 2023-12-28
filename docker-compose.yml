@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  finebi:
+    build: .
+    container_name: fine6cent
+    ports:
+      - "37799:37799"
+    volumes:
+      - data:/opt/FineBI6.0/webapps/webroot
+    tty: true
+    restart: unless-stopped
+
+  finebi-db:
+    image: mysql
+    container_name: finebi-db
+    volumes:
+      - db-data:/var/lib/mysql
+    command: --character-set-server=utf8 --collation-server=utf8_bin
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: finedb
+      MYSQL_USER: finebi
+      MYSQL_PASSWORD: finebi
+    restart: unless-stopped
+
+volumes:
+  data:
+  db-data:
